@@ -38,79 +38,69 @@ return;
 }
 
 
-
 function sendMessage(){
 
-const input=
-document
-.getElementById(
-"userInput"
-);
+const input =
+document.getElementById("userInput");
 
-const text=
-input.value.trim();
+const text = input.value.trim();
 
-if(
-!text
-)
-return;
+if(!text) return;
 
-const messages=
-document
-.getElementById(
-"chatMessages"
-);
+const messages =
+document.getElementById("chatMessages");
 
-messages.innerHTML+=
-`
+// show user
+messages.innerHTML += `
 <div>
-
-<b>You</b>
-
-<br>
-
-${text}
-
+<b>You</b><br>${text}
 </div>
 `;
 
-input.value="";
+input.value = "";
 
-setTimeout(()=>{
-
-messages.innerHTML+=
-`
-<div>
-
-<b>BHAVYA AI</b>
-
-<br>
-
-Ask me about projects.
-
+// placeholder (loading feel)
+messages.innerHTML += `
+<div id="loading">
+<b>BHAVYA AI</b><br>Thinking...
 </div>
 `;
 
-},500);
+fetch("http://localhost:3000/chat", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ message: text })
+})
+.then(res => res.json())
+.then(data => {
 
-}
+// remove loading
+document.getElementById("loading").remove();
 
-
-
-document
-.getElementById(
-"userInput"
-)
-.addEventListener(
-"keydown",
-function(e){
-
-if(
-e.key==="Enter"
-){
-
-sendMessage();
-
-}
+// show AI response
+messages.innerHTML += `
+<div>
+<b>BHAVYA AI</b><br>${data.reply}
+</div>
+`;
 
 });
+
+}
+
+async function getAIResponse(text){
+
+const res = await fetch("http://localhost:3000/chat", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({ message: text })
+});
+
+const data = await res.json();
+return data.reply;
+
+}
