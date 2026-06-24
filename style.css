@@ -372,3 +372,26 @@ text-decoration:none;
 margin-left:16px;
 
 }
+h1{
+
+font-size:60px;
+
+max-width:900px;
+
+margin:auto;
+
+}
+
+#projects{
+
+padding:80px;
+
+}
+
+.card{
+
+max-width:700px;
+
+margin:30px auto;
+
+}
