@@ -1,39 +1,54 @@
 import express from "express";
 import dotenv from "dotenv";
-import OpenAI from "openai";
 import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const PORT = process.env.PORT || 3000;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
-// AI route
+// Claude AI proxy route — keeps API key hidden from frontend
 app.post("/api/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
 
-    const response = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You are a helpful portfolio AI assistant." },
-        { role: "user", content: userMessage },
-      ],
+    if (!userMessage) {
+      return res.status(400).json({ reply: "No message provided." });
+    }
+
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: `You are the AI assistant for BHAVYA LABS — the personal portfolio of Bhavya, a student and builder focused on AI and web projects. Be friendly, concise, and enthusiastic. Know that Bhavya's current projects are: (1) AI Portfolio — this website with AI assistant, (2) Study Copilot — upload PDFs and learn faster with AI Q&A, (3) Future Project — currently in development. Bhavya's focus is AI + Web, currently on Version 1.1. Keep replies short (2-4 sentences max).`,
+        messages: [{ role: "user", content: userMessage }],
+      }),
     });
 
-    res.json({
-      reply: response.choices[0].message.content,
-    });
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("Anthropic API error:", data.error);
+      return res.status(500).json({ reply: "AI error occurred." });
+    }
+
+    const reply = data.content?.[0]?.text || "Sorry, I could not generate a response.";
+    res.json({ reply });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ reply: "AI error occurred" });
+    console.error("Server error:", err);
+    res.status(500).json({ reply: "Server error occurred." });
   }
 });
 
