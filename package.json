@@ -1,13 +1,9 @@
 {
-"name":"bhavya-ai",
-"type":"module",
-"scripts":{
-"start":"node server.js"
-},
-"dependencies":{
-"cors":"^2.8.5",
-"dotenv":"^17.2.1",
-"express":"^5.1.0",
-"openai":"^6.4.0"
-}
+  "name": "ai-portfolio",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "openai": "^4.0.0"
+  }
 }

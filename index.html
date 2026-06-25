@@ -1,251 +1,723 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BHAVYA LABS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<meta charset="UTF-8">
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #181818;
+      --border: #222222;
+      --border2: #2a2a2a;
+      --text: #f0f0f0;
+      --muted: #777777;
+      --accent: #e8e8e8;
+      --gold: #c9a96e;
+      --gold-dim: rgba(201,169,110,0.12);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.2s ease;
+    }
 
-<meta
-name="viewport"
-content=
-"width=device-width, initial-scale=1"
->
+    html { scroll-behavior: smooth; }
 
-<title>
-BHAVYA LABS
-</title>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
 
-<link
-rel="stylesheet"
-href="style.css"
->
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
 
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-cta {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 7px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: all var(--transition);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .nav-cta:hover {
+      background: var(--surface2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 100px 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--gold);
+      color: #080808;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-primary:hover { background: #d4b07a; transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--border2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-ghost:hover { background: var(--surface); border-color: var(--border2); }
+
+    /* STATS ROW */
+    .stats-row {
+      display: flex;
+      gap: 2px;
+      margin-top: 4rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* SECTION */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 2.5rem;
+    }
+
+    /* PROJECTS GRID */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .project-card {
+      background: var(--surface);
+      padding: 2rem;
+      text-decoration: none;
+      display: block;
+      transition: background var(--transition);
+      position: relative;
+    }
+
+    .project-card:hover { background: var(--surface2); }
+
+    .project-card:hover .project-arrow { opacity: 1; transform: translate(2px, -2px); }
+
+    .project-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 1.25rem;
+      border: 1px solid rgba(201,169,110,0.2);
+    }
+
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      border: 1px solid rgba(201,169,110,0.2);
+    }
+
+    .project-tag.wip {
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      border-color: var(--border);
+    }
+
+    .project-arrow {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 16px;
+      color: var(--muted);
+      opacity: 0;
+      transition: all var(--transition);
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* FOOTER */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* AI CHAT */
+    #chat-btn {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 200;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(201,169,110,0.35);
+      transition: all var(--transition);
+    }
+
+    #chat-btn:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(201,169,110,0.5); }
+
+    #chat-btn svg { width: 22px; height: 22px; fill: #080808; }
+
+    #chat-panel {
+      position: fixed;
+      bottom: 6rem; right: 2rem;
+      z-index: 200;
+      width: 360px;
+      max-height: 520px;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      transform: translateY(12px) scale(0.97);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    #chat-panel.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .chat-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chat-header-info { display: flex; align-items: center; gap: 10px; }
+
+    .chat-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .chat-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .chat-status {
+      font-size: 11px;
+      color: var(--gold);
+    }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color var(--transition);
+    }
+
+    .chat-close:hover { color: var(--text); }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .msg.bot {
+      background: var(--surface2);
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.user {
+      background: var(--gold);
+      color: #080808;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      font-weight: 500;
+    }
+
+    .msg.typing { color: var(--muted); font-style: italic; }
+
+    .chat-input-row {
+      padding: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+      resize: none;
+      transition: border-color var(--transition);
+    }
+
+    .chat-input:focus { border-color: var(--gold); }
+    .chat-input::placeholder { color: var(--muted); }
+
+    .chat-send {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--gold);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+
+    .chat-send:hover { background: #d4b07a; }
+    .chat-send svg { width: 16px; height: 16px; fill: #080808; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 90px 1rem 3rem; }
+      .section { padding: 3rem 1rem; }
+      .stats-row { flex-direction: column; gap: 0; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      #chat-panel { width: calc(100vw - 2rem); right: 1rem; }
+    }
+  </style>
 </head>
-
-
 <body>
 
-
-<div class="launch">
-
-🚀 BHAVYA LABS V1.0 LIVE
-
-</div>
-
-
-
-<nav>
-
-<h2>
-
-⚡ BHAVYA LABS
-
-</h2>
-
-<div>
-
-<a href="index.html">Home</a>
-
-<a href="dashboard.html">Dashboard</a>
-
-<a href="about.html">About</a>
-
-<a href="#projects">
-Projects
-</a>
-
-</div>
-
-</nav>
-
-
-
-<section class="hero">
-
-<h1>
-
-Building
-AI Experiments
-& Future Systems
-
-</h1>
-
-<p>
-
-BHAVYA LABS is a place for
-projects,
-experiments,
-and tools.
-
-</p>
-
-<p>
-
-Experiments,
-AI,
-systems,
-and future products.
-
-</p>
-
-
-<button
-onclick=
-"openChat()"
->
-
-Talk to My AI
-
-</button>
-
-
-<div class="tag">
-
-Version 1.0
-
-</div>
-
-</section>
-
-
-
-
-<section id="projects">
-
-<h2>
-
-Featured Projects
-
-</h2>
-
-
-
-<div class="card">
-
-<h3>
-
-🤖 AI Portfolio
-
-</h3>
-
-<p>
-
-Personal website with AI assistant
-
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>
-
-📚 Study Copilot
-
-</h3>
-
-<p>
-
-Upload PDFs and learn faster
-
-</p>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>
-
-🚀 Future Project
-
-</h3>
-
-<p>
-
-Currently in development
-
-</p>
-
-</div>
-
-</section>
-
-
-
-
-<footer>
-
-BHAVYA LABS © 2026
-
-</footer>
-
-
-
-
-<div
-id="chatBox"
-class="chat hidden"
->
-
-<div class="chat-header">
-
-AI Assistant
-
-<button
-onclick=
-"closeChat()"
->
-
-✕
-
-</button>
-
-</div>
-
-
-
-<div
-id="chatMessages"
-class="chat-messages"
->
-
-</div>
-
-
-
-<div class="chat-input">
-
-<input
-id="userInput"
-
-placeholder=
-"Ask something..."
->
-
-<button
-onclick=
-"sendMessage()"
->
-
-Send
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<script
-src=
-"app.js"
-></script>
+  <nav>
+    <a href="index.html" class="nav-logo">Bhavya Labs</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <button class="nav-cta" onclick="openChat()">Talk to AI</button>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <span class="hero-tag">Live — Version 1.0</span>
+      <h1>Building <em>AI</em><br>experiments &amp;<br>future systems.</h1>
+      <p class="hero-sub">BHAVYA LABS is a place for shipping ideas — tools, experiments, and products at the intersection of AI and the web.</p>
+      <div class="hero-actions">
+        <a href="projects.html" class="btn-primary">View Projects →</a>
+        <a href="about.html" class="btn-ghost">About me</a>
+      </div>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Active Projects</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">V1.1</div>
+          <div class="stat-label">Current Version</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">AI</div>
+          <div class="stat-label">Current Focus</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">↑</div>
+          <div class="stat-label">Build Status</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="section" id="projects">
+      <p class="section-eyebrow">Featured work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+        <a href="projects.html#ai-portfolio" class="project-card">
+          <span class="project-arrow">↗</span>
+          <div class="project-icon">🤖</div>
+          <div class="project-name">AI Portfolio</div>
+          <p class="project-desc">Personal portfolio with a built-in AI assistant that knows everything about my work.</p>
+          <span class="project-tag">Live</span>
+        </a>
+        <a href="projects.html#study-copilot" class="project-card">
+          <span class="project-arrow">↗</span>
+          <div class="project-icon">📚</div>
+          <div class="project-name">Study Copilot</div>
+          <p class="project-desc">Upload PDFs and learn faster — AI-powered Q&amp;A over your own documents.</p>
+          <span class="project-tag">Live</span>
+        </a>
+        <a href="projects.html#future" class="project-card">
+          <span class="project-arrow">↗</span>
+          <div class="project-icon">🚀</div>
+          <div class="project-name">Next Project</div>
+          <p class="project-desc">Something new is in development. Stay tuned for what comes next.</p>
+          <span class="project-tag wip">In Progress</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div class="divider"></div>
+  <footer>
+    <p>BHAVYA LABS © 2026</p>
+    <p>Building in public</p>
+  </footer>
+
+  <!-- AI Chat -->
+  <button id="chat-btn" onclick="toggleChat()" aria-label="Open AI chat">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37A9.96 9.96 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18a7.96 7.96 0 01-4.07-1.11l-.29-.17-3.03.84.84-3.03-.17-.29A7.96 7.96 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/></svg>
+  </button>
+
+  <div id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">✦</div>
+        <div>
+          <div class="chat-name">Bhavya's AI</div>
+          <div class="chat-status">Online</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="msg bot">Hey! I'm Bhavya's AI assistant. Ask me anything about his projects, skills, or what he's building. 👋</div>
+    </div>
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chat-input" rows="1" placeholder="Ask anything…" onkeydown="handleKey(event)"></textarea>
+      <button class="chat-send" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let chatOpen = false;
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+      if (chatOpen) document.getElementById('chat-input').focus();
+    }
+
+    function openChat() {
+      chatOpen = true;
+      document.getElementById('chat-panel').classList.add('open');
+      document.getElementById('chat-input').focus();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMsg(text, 'user');
+      input.value = '';
+
+      const typing = addMsg('Thinking…', 'bot typing');
+
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-6',
+            max_tokens: 1000,
+            system: `You are the AI assistant for BHAVYA LABS — the personal portfolio of Bhavya, a student and builder focused on AI and web projects. Be friendly, concise, and enthusiastic. Know that Bhavya's current projects are: (1) AI Portfolio — this website with AI assistant, (2) Study Copilot — upload PDFs and learn faster with AI Q&A, (3) Future Project — currently in development. Bhavya's focus is AI + Web, currently on Version 1.1. Keep replies short (2-4 sentences max).`,
+            messages: [{ role: 'user', content: text }]
+          })
+        });
+        const data = await res.json();
+        const reply = data.content?.[0]?.text || 'Something went wrong, please try again.';
+        typing.remove();
+        addMsg(reply, 'bot');
+      } catch {
+        typing.remove();
+        addMsg('Could not connect right now. Try again in a moment!', 'bot');
+      }
+    }
+
+    function addMsg(text, cls) {
+      const msgs = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = 'msg ' + cls;
+      div.textContent = text;
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+      return div;
+    }
+  </script>
 
 </body>
-
 </html>
