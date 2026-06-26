@@ -1,9 +1,0 @@
-{
-  "name": "ai-portfolio",
-  "type": "module",
-  "dependencies": {
-    "express": "^4.19.2",
-    "dotenv": "^16.4.5",
-    "openai": "^4.0.0"
-  }
-}
